@@ -1,0 +1,22 @@
+<div class="form-wrapper">
+  <h1>Begin/End task</h1>
+
+  <form>
+    <div class="form-item">
+      <label>Choose project</label>
+      <select (change)="projectChange($event)"  [disabled]="selectProjectEnable" >
+        <option *ngFor="let project of myProjects" [ngValue]="project.projectId">{{project.projectName}}</option>
+      </select>
+    </div>
+
+
+    <div class="form-item">
+      <button  (click)="start()" [disabled]="statBtnEnable">Start</button>
+    </div>
+    <div class="form-item">
+      <button  (click)="stop()" [disabled]="endBtnEnable">Stop</button>
+    </div>
+
+
+  </form>
+</div>

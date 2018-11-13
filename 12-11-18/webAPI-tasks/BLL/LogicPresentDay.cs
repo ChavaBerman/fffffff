@@ -96,11 +96,11 @@ namespace BLL
         public static bool UpdatePresent(PresentDay presentDay)
         {
             PresentDay currentPresentDay = GetPresentById(presentDay.IdPresentDay);
-            TimeSpan t = DateTime.Parse(presentDay.TimeEnd.ToString("yyyy-MM-dd HH:mm:ss")) - currentPresentDay.TimeBegin;
+            TimeSpan t = DateTime.Parse(presentDay.TimeEnd.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")) - DateTime.Parse(currentPresentDay.TimeBegin.ToString("yyyy-MM-dd HH:mm:ss"));
             
             double addedHours = t.TotalHours;
                
-            string query = $"UPDATE task.PresentDay SET EndHour='{presentDay.TimeEnd.ToString("yyyy-MM-dd HH:mm:ss")}',TotalHours={addedHours} WHERE IdPresentDay={presentDay.IdPresentDay}";
+            string query = $"UPDATE task.PresentDay SET EndHour='{presentDay.TimeEnd.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")}',TotalHours={addedHours} WHERE IdPresentDay={presentDay.IdPresentDay}";
             if (DBAccess.RunNonQuery(query) == 1)
             {
                 BOL.Models.Task currentTask = LogicTask.GetTaskByIdProjectAndIdUser(currentPresentDay.UserId, currentPresentDay.ProjectId);
@@ -119,11 +119,11 @@ namespace BLL
         public static int AddPresent(PresentDay presentDay)
         {
             //TODO:לעדכן את סך השעות שהעובד עבד
-            string query = $"INSERT INTO `task`.`PresentDay`(`IdProject`,`IdUser`,`startHour`,`EndHour`,`Totalhours`) VALUES({presentDay.ProjectId},{presentDay.UserId},'{presentDay.TimeBegin.ToString("yyyy-MM-dd HH:mm:ss tt")}','{presentDay.TimeEnd.ToString("yyyy-MM-dd HH:mm:ss")}',{presentDay.sumHoursDay}); ";
+            string query = $"INSERT INTO `task`.`PresentDay`(`IdProject`,`IdUser`,`startHour`,`EndHour`,`Totalhours`) VALUES({presentDay.ProjectId},{presentDay.UserId},'{presentDay.TimeBegin.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss tt")}','{presentDay.TimeEnd.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")}',{presentDay.sumHoursDay}); ";
             if (DBAccess.RunNonQuery(query) == 1)
             {
                 try {
-                return  GetPresent(presentDay.UserId, presentDay.ProjectId, presentDay.TimeBegin).IdPresentDay;
+                return  GetPresent(presentDay.UserId, presentDay.ProjectId, presentDay.TimeBegin.ToLocalTime()).IdPresentDay;
                 }
                 catch
                 {

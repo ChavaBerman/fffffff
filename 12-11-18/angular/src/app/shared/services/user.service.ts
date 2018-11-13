@@ -3,13 +3,11 @@ import { HttpClient } from '@angular/common/http'
 import { Observable, Subject } from 'rxjs';
 import { Global } from '../global';
 import { Router } from "../../../../node_modules/@angular/router";
-import { User } from '../imports';
+import { User, EmailParams } from '../imports';
 
 @Injectable()
 export class UserService {
-    logout(): any {
-       localStorage.removeItem("user");
-    }
+
     constructor(private http: HttpClient, private router: Router) {
 
     }
@@ -23,7 +21,10 @@ export class UserService {
         return this.http.post(url, data);
 
     }
-
+    logout(): any {
+        localStorage.removeItem("user");
+        this.router.navigate(['taskManagement/login']);
+    }
     navigate(user: User) {
 
         //update current user by subject
@@ -48,15 +49,15 @@ export class UserService {
     getCurrentUser() {
         return JSON.parse(localStorage.getItem("user"));
     }
-    addWorker(user:User): Observable<any> {
+    addWorker(user: User): Observable<any> {
         let url: string = `${this.basicURL}/Users/addUser`;
         return this.http.post(url, user);
     }
-    getAllowedWorkers(idTeamHead:number): Observable<any> {
+    getAllowedWorkers(idTeamHead: number): Observable<any> {
         let url: string = `${this.basicURL}/Users/GetAllowedWorkers/${idTeamHead}`;
         return this.http.get(url);
     }
-    getAllWorkersByTeamHead(idTeamHead:number): Observable<any> {
+    getAllWorkersByTeamHead(idTeamHead: number): Observable<any> {
         let url: string = `${this.basicURL}/Users/GetWorkersByTeamhead/${idTeamHead}`;
         return this.http.get(url);
     }
@@ -64,13 +65,17 @@ export class UserService {
         let url: string = `${this.basicURL}/Users/GetAllWorkers`;
         return this.http.get(url);
     }
-    updateWorker(user:User): Observable<any> {
+    updateWorker(user: User): Observable<any> {
         let url: string = `${this.basicURL}/Users/UpdateUser`;
         return this.http.put(url, user);
     }
-    removeUser(id:number){
+    removeUser(id: number) {
         let url: string = `${this.basicURL}/Users/RemoveUser/${id}`;
         return this.http.delete(url);
+    }    
+    senEmail(emailParams:EmailParams): Observable<any> {
+        let url: string = `${this.basicURL}/Users/sendMessageToManager`;
+        return this.http.post(url, emailParams);
     }
 
 

@@ -59,6 +59,7 @@
     <Compile Include="Convertors\ConvertorPresentDay.cs" />
     <Compile Include="Convertors\ConvertorTask.cs" />
     <Compile Include="Convertors\ConvertorUser.cs" />
+    <Compile Include="HelpModel\EmailParams.cs" />
     <Compile Include="HelpModel\LoginUser.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\DepartmentUser.cs" />

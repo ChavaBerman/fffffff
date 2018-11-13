@@ -27,6 +27,10 @@ export class ProjectService {
         let url: string = `${this.basicURL}/Projects/GetAllProjectsByTeamHead/${teamHeadId}`;
         return this.http.get(url);
     }
+    GetAllProjectsByWorker(workerId:number): Observable<any> {
+        let url: string = `${this.basicURL}/Projects/GetAllProjectsByWorker/${workerId}`;
+        return this.http.get(url);
+    }
     
 
 }

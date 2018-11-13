@@ -28,14 +28,16 @@ import {
   UpdateHoursComponent,
   TaskDetailsComponent,
   UpdateHoursTaskComponent,
-  ProjectChartComponent
+  ProjectChartComponent,
+  WorkerComponent,
+  WorkerHomeComponent,
+  ApplyToManagerComponent,
+  MyTasksComponent,
+  MyHoursComponent,
+  BeginEndTaskComponent,
+  PresentDayService,
+  TaskDetailsForWorkerComponent
 } from './shared/imports';
-
-
-
-
-
-
 
 
 @NgModule({
@@ -60,7 +62,14 @@ import {
     UpdateHoursComponent,
     TaskDetailsComponent,
     UpdateHoursTaskComponent,
-    ProjectChartComponent
+    ProjectChartComponent,
+    WorkerComponent,
+    WorkerHomeComponent,
+    ApplyToManagerComponent,
+    MyTasksComponent,
+    MyHoursComponent,
+    BeginEndTaskComponent,
+    TaskDetailsForWorkerComponent
 
 
   ],
@@ -71,7 +80,7 @@ import {
     FormsModule,
     HttpClientModule
   ],
-  providers: [UserService, StatusService, ProjectService, TaskService],
+  providers: [UserService, StatusService, ProjectService, TaskService,PresentDayService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

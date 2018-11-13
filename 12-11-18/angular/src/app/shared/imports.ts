@@ -5,6 +5,8 @@ export { User } from './models/user'
 export { Status } from './models/Status'
 export { Project } from './models/Project'
 export { Task } from './models/Task'
+export { PresentDay } from './models/Present-day'
+export { EmailParams } from './models/Email-params'
 
 
 //---------------Services----------------s
@@ -12,6 +14,7 @@ export { UserService } from './services/user.service'
 export { StatusService } from './services/status.service'
 export { ProjectService } from './services/project.service'
 export { TaskService } from './services/task.service'
+export { PresentDayService } from './services/present-day.service'
 
 
 
@@ -34,9 +37,18 @@ export { TeamHeadHomeComponent } from '../components/team-head-home/team-head-ho
 export { HoursChartComponent } from '../components/hours-chart/hours-chart.component';
 export { ProjectsStateComponent } from '../components/projects-state/projects-state.component';
 export { UpdateHoursComponent } from '../components/update-hours/update-hours.component';
-export { TaskDetailsComponent} from '../components/task-details/task-details.component';
+export { TaskDetailsComponent } from '../components/task-details/task-details.component';
 export { UpdateHoursTaskComponent } from '../components/update-hours-task/update-hours-task.component';
 export { ProjectChartComponent } from '../components/project-chart/project-chart.component';
+export { WorkerComponent } from '../components/worker/worker.component';
+export { WorkerHomeComponent } from '../components/worker-home/worker-home.component';
+export { ApplyToManagerComponent } from '../components/apply-to-manager/apply-to-manager.component';
+export { MyTasksComponent } from '../components/my-tasks/my-tasks.component';
+export { MyHoursComponent } from '../components/my-hours/my-hours.component';
+export { BeginEndTaskComponent } from '../components/begin-end-task/begin-end-task.component';
+export { TaskDetailsForWorkerComponent } from '../components/task-details-for-worker/task-details-for-worker.component';
+
+
 
 //-----------validations-----------------
 export {

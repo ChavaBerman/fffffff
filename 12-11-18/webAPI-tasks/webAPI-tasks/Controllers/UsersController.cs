@@ -68,11 +68,11 @@ namespace webAPI_tasks.Controllers
         }
 
 
-        [HttpPut]
-        [Route("api/Users/sendMessageToManager/{idUser}/{subject}")]
-        public HttpResponseMessage sendMessageToManager(int idUser,string subject, [FromBody]string message)
+        [HttpPost]
+        [Route("api/Users/sendMessageToManager")]
+        public HttpResponseMessage sendMessageToManager( [FromBody]EmailParams emailParams)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, LogicManager.sendEmailToManager(idUser, message, subject));
+            return Request.CreateResponse(HttpStatusCode.OK, LogicManager.sendEmailToManager(emailParams.idUser, emailParams.message, emailParams.subject));
         }
 
         [HttpPost]

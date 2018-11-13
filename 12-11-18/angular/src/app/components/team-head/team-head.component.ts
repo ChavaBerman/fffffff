@@ -21,6 +21,5 @@ export class TeamHeadComponent implements OnInit {
   logOut() {
     //log out the user
     this.userservice.logout();
-    this.router.navigate(['taskManagement/login']);
   }
 }
