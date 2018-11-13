@@ -56,6 +56,10 @@ export class UserService {
         let url: string = `${this.basicURL}/Users/GetAllowedWorkers/${idTeamHead}`;
         return this.http.get(url);
     }
+    getAllWorkersByTeamHead(idTeamHead:number): Observable<any> {
+        let url: string = `${this.basicURL}/Users/GetWorkersByTeamhead/${idTeamHead}`;
+        return this.http.get(url);
+    }
     getAllWorkers(): Observable<any> {
         let url: string = `${this.basicURL}/Users/GetAllWorkers`;
         return this.http.get(url);

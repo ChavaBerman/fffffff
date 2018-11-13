@@ -35,6 +35,8 @@ export { HoursChartComponent } from '../components/hours-chart/hours-chart.compo
 export { ProjectsStateComponent } from '../components/projects-state/projects-state.component';
 export { UpdateHoursComponent } from '../components/update-hours/update-hours.component';
 export { TaskDetailsComponent} from '../components/task-details/task-details.component';
+export { UpdateHoursTaskComponent } from '../components/update-hours-task/update-hours-task.component';
+export { ProjectChartComponent } from '../components/project-chart/project-chart.component';
 
 //-----------validations-----------------
 export {

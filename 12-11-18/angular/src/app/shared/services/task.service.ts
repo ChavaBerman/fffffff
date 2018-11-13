@@ -15,7 +15,7 @@ export class TaskService {
 
   }
   basicURL: string = Global.BASE_ENDPOINT;
- 
+
   addTask(task: Task): Observable<any> {
     let url: string = `${this.basicURL}/Tasks/AddTask`;
     return this.http.post(url, task);
@@ -24,5 +24,13 @@ export class TaskService {
   GetAllTasksByProjectId(projectId: number): Observable<any> {
     let url: string = `${this.basicURL}/Tasks/GetTasksWithUserAndProjectByProjectId/${projectId}`;
     return this.http.get(url);
+  }
+  GetTasksWithUserAndProjectByUserId(userId: number): Observable<any> {
+    let url: string = `${this.basicURL}/Tasks/GetTasksWithUserAndProjectByUserId/${userId}`;
+    return this.http.get(url);
+  }
+  UpdateTask(task:Task): Observable<any> {
+    let url: string = `${this.basicURL}/Tasks/UpdateTask`;
+    return this.http.put(url,task);
   }
 }

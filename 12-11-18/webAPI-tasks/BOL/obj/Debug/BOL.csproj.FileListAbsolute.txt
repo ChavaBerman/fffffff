@@ -33,3 +33,12 @@ S:\ChavyBerman\webAPI-tasks\BOL\obj\Debug\BOL.csproj.CoreCompileInputs.cache
 S:\ChavyBerman\webAPI-tasks\BOL\obj\Debug\BOL.csproj.CopyComplete
 S:\ChavyBerman\webAPI-tasks\BOL\obj\Debug\BOL.dll
 S:\ChavyBerman\webAPI-tasks\BOL\obj\Debug\BOL.pdb
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\bin\Debug\BOL.dll
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\bin\Debug\BOL.pdb
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\bin\Debug\Google.Protobuf.xml
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\bin\Debug\MySql.Data.xml
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL.csprojAssemblyReference.cache
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL.csproj.CoreCompileInputs.cache
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL.csproj.CopyComplete
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL.dll
+C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL.pdb

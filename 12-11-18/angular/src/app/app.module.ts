@@ -26,8 +26,12 @@ import {
   HoursChartComponent,
   ProjectsStateComponent,
   UpdateHoursComponent,
-  TaskDetailsComponent
+  TaskDetailsComponent,
+  UpdateHoursTaskComponent,
+  ProjectChartComponent
 } from './shared/imports';
+
+
 
 
 
@@ -54,7 +58,9 @@ import {
     HoursChartComponent,
     ProjectsStateComponent,
     UpdateHoursComponent,
-    TaskDetailsComponent
+    TaskDetailsComponent,
+    UpdateHoursTaskComponent,
+    ProjectChartComponent
 
 
   ],

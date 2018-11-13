@@ -19,15 +19,19 @@ export class ProjectsStateComponent implements OnInit {
     this.teamHead = this.userService.getCurrentUser();
     this.projectService.getAllProjectsByTeamHead(this.teamHead.userId).subscribe((res) => {
       this.myProjects = res;
+      this.currentProject = this.myProjects[0];
+      this.GetAllTasks();
     })
   }
   changeProject(event:Event){
     let selectedOptions = event.target['options'];
     this.currentProject = this.myProjects[selectedOptions.selectedIndex];
+    this.GetAllTasks();
+  }
+  GetAllTasks(){
     this.taskService.GetAllTasksByProjectId(this.currentProject.projectId).subscribe((res)=>{
       this.currentProjectTasks=res;
     });
-
   }
 
 }

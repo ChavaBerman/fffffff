@@ -13,11 +13,11 @@ namespace BOL.Models
 
         public int IdTask { get; set; }
 
-        [Range(0,int.MaxValue)]
+        [Range(0,int.MaxValue, ErrorMessage = "Reserving hours can not be less than 0")]
         [DefaultValue(0)]
         public decimal ReservingHours { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(0, int.MaxValue,ErrorMessage ="Given hours can not be less than 0")]
         [DefaultValue(1)]
         public decimal GivenHours { get; set; }
         public int IdUser { get; set; }
