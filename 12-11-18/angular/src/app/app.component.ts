@@ -9,17 +9,23 @@ import { UserService } from './shared/imports';
 })
 export class AppComponent implements OnInit {
   title = 'ClientAngular';
-constructor(private userservice:UserService){
+  constructor(private userservice: UserService) {
 
-}
+  }
 
+  ngOnInit() {
 
-ngOnInit()
-{
+    this.userservice.getIp().subscribe((res) => {
+      console.log(res);
+      this.userservice.getCurrentUserByIp(res["ip"]).subscribe((user) => {
+        if (user != null) {
+          localStorage.setItem("user", JSON.stringify(user));
+          this.userservice.navigate(JSON.parse(JSON.stringify(user)));
+        }
+        else this.userservice.navigateToLogin();
+      })
+    })
+    //TODO
 
-if(localStorage.getItem("user")!=null)
-this.userservice.navigate(JSON.parse(localStorage.getItem("user")));
-//TODO
-
-}
+  }
 }

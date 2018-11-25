@@ -222,11 +222,6 @@ namespace BLL
 
 
 
-        //public static bool UpdateProject(Project project)
-        //{
-        //    string query = $"UPDATE task.project SET numHour='{project.numHourForProject}',name='{project.ProjectName}',dateBegin={project.DateBegin} ,dateEnd={project.DateEnd} ,isFinish='{project.IsFinish}',customerName='{project.CustomerName}'  WHERE id={project.ProjectId} ";
-        //    return DBAccess.RunNonQuery(query) == 1;
-        //}
         public static bool AddWorkerToProject(int projectId, List<User> workers)
         {
 
@@ -249,14 +244,10 @@ namespace BLL
             if (DBAccess.RunNonQuery(query) == 1)
             {
                 Project currentProject = GetProjectDetails(project.ProjectName);
-                List<User> workers = new List<User>();
-                workers = LogicManager.GetAllWorkersByTeamId(project.IdManager);
-                workers.AddRange(project.workers);
-                foreach (var item in workers)
+                foreach (BOL.Models.Task task in project.tasks)
                 {
-                    query = $"INSERT INTO `task`.`task`(`reservingHours`,`givenHours`,`idProject`,`idUser`)VALUES(0,0,{currentProject.ProjectId},{item.UserId });";
+                    query = $"INSERT INTO `task`.`task`(`reservingHours`,`givenHours`,`idProject`,`idUser`)VALUES({task.ReservingHours},0,{currentProject.ProjectId},{task.IdUser });";
                     DBAccess.RunNonQuery(query);
-
                 }
                 return true;
             }

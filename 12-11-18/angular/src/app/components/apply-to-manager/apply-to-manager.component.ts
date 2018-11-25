@@ -20,7 +20,7 @@ export class ApplyToManagerComponent implements OnInit {
     };
     this.formGroup = new FormGroup(formGroupConfig);
 
-    this.worker = this.userService.getCurrentUser();
+  this.worker = this.userService.getCurrentUser();
   }
 
   ngOnInit() {

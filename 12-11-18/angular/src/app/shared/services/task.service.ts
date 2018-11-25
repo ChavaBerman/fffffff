@@ -28,6 +28,14 @@ export class TaskService {
   GetTasksWithUserAndProjectByUserId(userId: number): Observable<any> {
     let url: string = `${this.basicURL}/Tasks/GetTasksWithUserAndProjectByUserId/${userId}`;
     return this.http.get(url);
+  } 
+  GetWorkersDictionary(projectId: number): Observable<any> {
+    let url: string = `${this.basicURL}/Tasks/GetWorkersDictionary/${projectId}`;
+    return this.http.get(url);
+  }
+  GetProectsDictionaryByWorkerId(workerId: number): Observable<any> {
+    let url: string = `${this.basicURL}/Tasks/GetWorkerTasksDictionary/${workerId}`;
+    return this.http.get(url);
   }
   UpdateTask(task:Task): Observable<any> {
     let url: string = `${this.basicURL}/Tasks/UpdateTask`;

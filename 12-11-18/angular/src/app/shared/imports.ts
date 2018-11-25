@@ -7,6 +7,8 @@ export { Project } from './models/Project'
 export { Task } from './models/Task'
 export { PresentDay } from './models/Present-day'
 export { EmailParams } from './models/Email-params'
+export { WorkerForProjectReport } from './models/Worker-for-project-report'
+export { ProjectReport } from './models/Project-report'
 
 
 //---------------Services----------------s
@@ -15,7 +17,7 @@ export { StatusService } from './services/status.service'
 export { ProjectService } from './services/project.service'
 export { TaskService } from './services/task.service'
 export { PresentDayService } from './services/present-day.service'
-
+export { ReportService } from './services/report.service'
 
 
 
@@ -47,6 +49,10 @@ export { MyTasksComponent } from '../components/my-tasks/my-tasks.component';
 export { MyHoursComponent } from '../components/my-hours/my-hours.component';
 export { BeginEndTaskComponent } from '../components/begin-end-task/begin-end-task.component';
 export { TaskDetailsForWorkerComponent } from '../components/task-details-for-worker/task-details-for-worker.component';
+export { ClockComponent } from '../components/clock/clock.component';
+export { ProjectReportComponent } from '../components/project-report/project-report.component';
+export { ProjectWorkersReportComponent } from '../components/project-workers-report/project-workers-report.component';
+export { WorkersReportComponent } from '../components/workers-report/workers-report.component';
 
 
 

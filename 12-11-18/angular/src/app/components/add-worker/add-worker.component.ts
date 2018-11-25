@@ -31,7 +31,7 @@ export class AddWorkerComponent implements OnInit {
     this.formGroup = new FormGroup(formGroupConfig);
     this.formGroup.addControl("confirmPassword", new FormControl("", confirmPassword(this.formGroup)));
 
-    this.currentUser = this.userService.getCurrentUser();
+     this.currentUser = this.userService.getCurrentUser();
   }
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class AddWorkerComponent implements OnInit {
         type: 'success',
         title: 'Added successfuly!',
         showConfirmButton: false,
-        timer: 1500
+        timer: 100
       });
       this.router.navigate(['taskManagement/manager']);
     },(req)=> {

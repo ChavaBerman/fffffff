@@ -1,4 +1,4 @@
-import{Status}from './Status'
+import {Status} from './Status';
 export class User{
     userId:number
     userName:string
@@ -9,5 +9,5 @@ export class User{
     managerId:number
     statusId:number
     statusObj:Status
-    
+    isNewWorker:boolean=true
 }

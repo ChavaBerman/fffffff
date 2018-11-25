@@ -18,7 +18,7 @@ namespace Client_WinForm.Requests
             try
             {
                 //Post Request for Register
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:61309/api/AddPresent");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:61309/api/PresentDay/AddPresent");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))

@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { Global } from '../global';
 import { Router } from "../../../../node_modules/@angular/router";
 import { User, EmailParams } from '../imports';
+import { TreeNode } from 'primeng/api';
 
 @Injectable()
 export class UserService {
@@ -23,6 +24,9 @@ export class UserService {
     }
     logout(): any {
         localStorage.removeItem("user");
+        this.navigateToLogin();
+    }
+    navigateToLogin(){
         this.router.navigate(['taskManagement/login']);
     }
     navigate(user: User) {
@@ -46,8 +50,17 @@ export class UserService {
         let url: string = `${this.basicURL}/Users/GetAllTeamHeads`;
         return this.http.get(url);
     }
+    getIp(): Observable<any> {
+        let url: string = `https://api.ipify.org/?format=json`;
+        return this.http.get(url);
+    }
     getCurrentUser() {
         return JSON.parse(localStorage.getItem("user"));
+    }
+    getCurrentUserByIp(ip): Observable<any> {
+        let url: string = `${this.basicURL}/Users/LoginByComputerUser`;
+        let data:object={computerIp:ip};
+        return this.http.post(url,data);
     }
     addWorker(user: User): Observable<any> {
         let url: string = `${this.basicURL}/Users/addUser`;
@@ -62,7 +75,7 @@ export class UserService {
         return this.http.get(url);
     }
     getAllWorkers(): Observable<any> {
-        let url: string = `${this.basicURL}/Users/GetAllWorkers`;
+        let url: string = `${this.basicURL}/Users/getAllUsers`;
         return this.http.get(url);
     }
     updateWorker(user: User): Observable<any> {
@@ -72,11 +85,24 @@ export class UserService {
     removeUser(id: number) {
         let url: string = `${this.basicURL}/Users/RemoveUser/${id}`;
         return this.http.delete(url);
-    }    
-    senEmail(emailParams:EmailParams): Observable<any> {
+    }
+    senEmail(emailParams: EmailParams): Observable<any> {
         let url: string = `${this.basicURL}/Users/sendMessageToManager`;
         return this.http.post(url, emailParams);
     }
+    getFilesystem(): Observable<any>
+    {
+        return this.http.get(`${this.basicURL}/Users/getJson`);
+     
+    }
 
+
+
+
+   
+    
+    
+
+   
 
 }

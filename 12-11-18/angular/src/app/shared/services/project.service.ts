@@ -10,8 +10,9 @@ import { Project } from '../imports';
 export class ProjectService {
  
     constructor(private http: HttpClient, private router: Router) {
-
     }
+
+    projectIdSubject:Subject<number>=new Subject()
     basicURL: string = Global.BASE_ENDPOINT;
 
     addProject(project:Project): Observable<any> {
@@ -27,8 +28,13 @@ export class ProjectService {
         let url: string = `${this.basicURL}/Projects/GetAllProjectsByTeamHead/${teamHeadId}`;
         return this.http.get(url);
     }
+    
     GetAllProjectsByWorker(workerId:number): Observable<any> {
         let url: string = `${this.basicURL}/Projects/GetAllProjectsByWorker/${workerId}`;
+        return this.http.get(url);
+    }
+    GetProjectState(projectId:number): Observable<any> {
+        let url: string = `${this.basicURL}/Projects/GetProjectState/${projectId}`;
         return this.http.get(url);
     }
     

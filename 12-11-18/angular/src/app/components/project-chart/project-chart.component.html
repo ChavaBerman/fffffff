@@ -1,3 +1,8 @@
-<p>
-  project-chart works!
-</p>
+<div style="display: block">
+  <canvas baseChart
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"
+          (chartHover)="chartHovered($event)"
+          ></canvas>
+</div>

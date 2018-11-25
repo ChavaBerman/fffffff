@@ -16,7 +16,7 @@ export class ProjectsStateComponent implements OnInit {
   constructor(private projectService: ProjectService, private userService: UserService, private taskService: TaskService) { }
 
   ngOnInit() {
-    this.teamHead = this.userService.getCurrentUser();
+     this.teamHead = this.userService.getCurrentUser();
     this.projectService.getAllProjectsByTeamHead(this.teamHead.userId).subscribe((res) => {
       this.myProjects = res;
       this.currentProject = this.myProjects[0];
@@ -27,6 +27,8 @@ export class ProjectsStateComponent implements OnInit {
     let selectedOptions = event.target['options'];
     this.currentProject = this.myProjects[selectedOptions.selectedIndex];
     this.GetAllTasks();
+    this.projectService.projectIdSubject.next(this.currentProject.projectId);
+    
   }
   GetAllTasks(){
     this.taskService.GetAllTasksByProjectId(this.currentProject.projectId).subscribe((res)=>{

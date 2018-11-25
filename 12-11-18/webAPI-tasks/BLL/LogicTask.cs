@@ -1,5 +1,6 @@
 ﻿using BOL;
 using BOL.Convertors;
+using BOL.HelpModel;
 using BOL.Models;
 using DAL;
 using MySql.Data.MySqlClient;
@@ -95,43 +96,29 @@ namespace BLL
             return tasksList;
 
         }
-
-        public static Dictionary<string, decimal> GetWorkerTasksDictionary(int id)
+        public static Dictionary<string,Hours> GetWorkersDictionary(int projectId)
         {
-            List<string> myDays = new List<string>();
-            List<decimal> myHours = new List<decimal>();
-
-            string query = $"select date(task.presentday.startHour)from presentday where idUser={id} group by date(task.presentday.startHour); ";
-            Func<MySqlDataReader, List<string>> func1 = (reader) =>
+            List<BOL.Models.Task> tasks = new List<BOL.Models.Task>();
+            Dictionary<string, Hours> dictionary = new Dictionary<string, Hours>();
+            tasks = GetTasksWithUserAndProjectByProjectId(projectId);
+            foreach (BOL.Models.Task item in tasks)
             {
-                List<string> tasks = new List<string>();
-                while (reader.Read())
-                {
-                    tasks.Add(reader.GetMySqlDateTime(0).GetDateTime().ToString("yyyy-MM-dd"));
-                }
-                return tasks;
-            };
-            myDays = DBAccess.RunReader(query, func1);
-
-            query = $"select sum(task.presentday.totalHours) from presentday where idUser={id} group by date(task.presentday.startHour); ";
-            Func<MySqlDataReader, List<decimal>> func2 = (reader) =>
-            {
-                List<decimal> tasks = new List<decimal>();
-                while (reader.Read())
-                {
-                    tasks.Add(reader.GetDecimal(0));
-                }
-                return tasks;
-            };
-            myHours = DBAccess.RunReader(query, func2);
-
-            Dictionary<string, decimal> tasksDictionary = new Dictionary<string, decimal>();
-            for (int i = 0; i < myDays.Count; i++)
-            {
-                tasksDictionary.Add(myDays[i], myHours[i]);
+                dictionary.Add(item.userName, new Hours { GivenHours = item.GivenHours, ReservingHours = item.ReservingHours });
             }
-            return tasksDictionary;
+            return dictionary;
         }
+        public static Dictionary<string, Hours> GetWorkerTasksDictionary(int workerId)
+        {
+            List<BOL.Models.Task> tasks = new List<BOL.Models.Task>();
+            Dictionary<string, Hours> dictionary = new Dictionary<string, Hours>();
+            tasks = GetTasksWithUserAndProjectByUserId(workerId);
+            foreach (BOL.Models.Task item in tasks)
+            {
+                dictionary.Add(item.projectName, new Hours { GivenHours = item.GivenHours, ReservingHours = item.ReservingHours });
+            }
+            return dictionary;
+        }
+       
         public static bool UpdateTask(BOL.Models.Task task)
         {
             string query = $"UPDATE `task`.`task` SET `reservingHours` = {task.ReservingHours},`givenHours` = {task.GivenHours} WHERE `idTask` = {task.IdTask};";

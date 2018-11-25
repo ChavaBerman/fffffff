@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Project, ProjectService, User, UserService, TaskService } from 'src/app/shared/imports';
 
 @Component({
   selector: 'app-hours-chart',
@@ -12,29 +13,54 @@ export class HoursChartComponent implements OnInit {
   barChartType: any;
   barChartLegend: any;
   barChartData: any;
-  constructor() { }
+  reservingArray:any=[];
+  givenArray:any=[];
+  projects: Array<Project>;
+  teamHead: User;
+  constructor(private projectService: ProjectService, private userService: UserService,private taskService:TaskService) { }
 
   ngOnInit() {
-     this.barChartOptions = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
-   this.barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-   this.barChartType = 'bar';
-   this.barChartLegend = true;
- 
-   this.barChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'name project'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-  ];
+    this.barChartOptions = {
+      scaleShowVerticalLines: false,
+      responsive: true
+    };
+    this.barChartLabels = [];
+    this.barChartType = 'bar';
+    this.barChartLegend = true;
 
+    this.barChartData = [
+      { data:[], label: 'reserving hours' },
+      { data: [], label: 'given hours' }
+    ];
+    this.teamHead = this.userService.getCurrentUser();
+    this.projectService.getAllProjectsByTeamHead(this.teamHead.userId).subscribe((res) => {
+      this.projects = res;
+    })
 
   }
-  public chartClicked(e:any):void {
+  changeProject(event:Event){
+    this.barChartLabels=[];
+    this.reservingArray=[];
+    this.givenArray=[];
+    let selectedOptions = event.target['options'];
+    this.taskService.GetWorkersDictionary(this.projects[selectedOptions.selectedIndex].projectId).subscribe((res)=>{
+      console.log(res);
+     
+      Object.keys(res).map(key => {
+         this.barChartLabels.push(key);
+         this.reservingArray.push(res[key]["reservingHours"]);
+         this.givenArray.push(res[key]["givenHours"]);
+
+        });
+        this.barChartData[0]["data"]=this.reservingArray;
+        this.barChartData[1]["data"]=this.givenArray;
+    });
+  }
+  public chartClicked(e: any): void {
     console.log(e);
   }
- 
-  public chartHovered(e:any):void {
+
+  public chartHovered(e: any): void {
     console.log(e);
   }
 

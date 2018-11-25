@@ -42,3 +42,15 @@ C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL
 C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL.csproj.CopyComplete
 C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL.dll
 C:\Users\seldat\Documents\GitHub\fffffff\12-11-18\webAPI-tasks\BOL\obj\Debug\BOL.pdb
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\bin\Debug\BOL.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\bin\Debug\BOL.pdb
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\obj\Debug\BOL.csprojAssemblyReference.cache
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\obj\Debug\BOL.csproj.CoreCompileInputs.cache
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\obj\Debug\BOL.csproj.CopyComplete
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\obj\Debug\BOL.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\obj\Debug\BOL.pdb
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\bin\Debug\Telerik.WinControls.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\bin\Debug\Telerik.WinControls.UI.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\bin\Debug\TelerikCommon.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\bin\Debug\Telerik.WinControls.xml
+S:\ChavyBerman\ffffff\webAPI-tasks\BOL\bin\Debug\Telerik.WinControls.UI.xml

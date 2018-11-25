@@ -1,6 +1,7 @@
 
 export class Task{
     idTask:number;
+    
     reservingHours:number;
     givenHours:number;
     idUser:number;

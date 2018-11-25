@@ -23,7 +23,8 @@ namespace BOL
         [MinLength(2, ErrorMessage = "name must be more than 2 chars"), MaxLength(15, ErrorMessage = "name must be less than 15 chars")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "password is required")]
+        [RequiredIf("IsNewWorker", true,
+              ErrorMessageResourceName = "PasswordRequired")]
         [UniquePassword]
         // [MinLength(64), MaxLength(64)]
         public string Password { get; set; }
@@ -41,8 +42,9 @@ namespace BOL
 
         public int? ManagerId { get; set; }
         public int StatusId { get; set; }
-        
-        
+        [DefaultValue(true)]
+        public bool IsNewWorker { get; set; }
+
         //------------------------------------------------------------
         public Status statusObj { get; set; }
          public List<Project> Projects { get; set; }

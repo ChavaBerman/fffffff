@@ -37,86 +37,16 @@ namespace Client_WinForm
             if (Validator.TryValidateObject(loginUser, validationContext, results, true))
             {
 
-                try
+                user = Requests.UserRequests.LoginByPassword(loginUser);
+                if (user != null)
                 {
-                    //Post Request for Login
-                    var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:61309/api/Users/LoginByPassword");
-                    httpWebRequest.ContentType = "application/json";
-                    httpWebRequest.Method = "POST";
-                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                    if (cb_rememberUser.Checked)
                     {
-                        string userStr = JsonConvert.SerializeObject(loginUser, Formatting.None);
-
-                        streamWriter.Write(userStr);
-                        streamWriter.Flush();
-                        streamWriter.Close();
+                        user.UserComputer = Requests.UserRequests.GetIp();
+                        if (!Requests.UserRequests.UpdateUser(user))
+                            MessageBox.Show("this computer already registred to another user");
                     }
-                    //Gettting response
-                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
-                    //Reading response
-                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream(), ASCIIEncoding.ASCII))
-                    {
-                        string result = streamReader.ReadToEnd();
-                        //If Login succeeded
-                        if (httpResponse.StatusCode == HttpStatusCode.Created)
-                        {
-
-                            dynamic obj = JsonConvert.DeserializeObject(result);
-                            user = JsonConvert.DeserializeObject<User>(JsonConvert.SerializeObject(obj));
-                            if (cb_rememberUser.Checked)
-                            {
-                                user.UserComputer = Environment.MachineName;
-                                validationContext = new ValidationContext(user, null, null);
-                                results = new List<ValidationResult>();
-                                if (Validator.TryValidateObject(user, validationContext, results, true))
-                                {
-                                    try
-                                    {
-                                        httpWebRequest = (HttpWebRequest)WebRequest.Create($@"http://localhost:61309/api/Users");
-                                        httpWebRequest.ContentType = "application/json";
-                                        httpWebRequest.Method = "PUT";
-                                        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-                                        {
-                                            dynamic currentUser = user;
-                                            string currentUserNameString = Newtonsoft.Json.JsonConvert.SerializeObject(currentUser, Formatting.None);
-                                            streamWriter.Write(currentUserNameString);
-                                            streamWriter.Flush();
-                                            streamWriter.Close();
-                                        }
-                                        //Get response
-                                        httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                                        //Read response
-                                        using (var streamReaderPUT = new StreamReader(httpResponse.GetResponseStream(), ASCIIEncoding.ASCII))
-                                        {
-                                            string resultPUT = streamReaderPUT.ReadToEnd();
-                                            //If request succeeded
-                                            if (httpResponse.StatusCode == HttpStatusCode.OK)
-                                            {
-
-
-                                            }
-                                            //Print the matching error
-                                            else MessageBox.Show(result);
-
-                                        }
-                                    }
-                                    catch (Exception exception)
-                                    {
-                                        MessageBox.Show(exception.Message);
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show(string.Join(",\n", results.Select(p => p.ErrorMessage)));
-
-                                }
-                            }
-
-                        }
-                        //Printing the matching error from server
-                        else MessageBox.Show(result);
-                    }
                     switch (user.statusObj.StatusName)
                     {
                         case "Manager":
@@ -138,20 +68,18 @@ namespace Client_WinForm
 
                     }
                 }
-                catch 
-                {
-                    MessageBox.Show("Can not login with these details.");
-
-                }
+                else MessageBox.Show("can not login with these details");
             }
-            else
-            {
-                MessageBox.Show(string.Join(",\n", results.Select(p => p.ErrorMessage)));
-
-            }
+            else MessageBox.Show(string.Join(",\n", results.Select(p => p.ErrorMessage)));
 
 
         }
 
     }
+
+
+
 }
+
+
+

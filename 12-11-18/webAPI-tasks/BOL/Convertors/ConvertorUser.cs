@@ -16,8 +16,8 @@ namespace BOL.Convertors
             return new User() {
                 UserId = readerRow.GetInt32(0),
                 UserName = readerRow.GetString(1),
-                Password = readerRow.GetString(2),
                 Email = readerRow.GetString(3),
+                IsNewWorker=false,
                 StatusId = readerRow.GetInt32(4),
                 NumHoursWork = readerRow.GetInt32(5),
                 ManagerId = readerRow.GetInt32(6),

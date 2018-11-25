@@ -14,7 +14,7 @@ export class UpdateHoursComponent implements OnInit {
   currentWorkerTasks:Array<Task>=null;
 
   constructor(private userService:UserService,private taskService:TaskService) { 
-    this.teamHead=this.userService.getCurrentUser();
+  this.teamHead= this.userService.getCurrentUser();
   }
 
   ngOnInit() {

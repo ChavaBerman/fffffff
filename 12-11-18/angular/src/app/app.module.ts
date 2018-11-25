@@ -4,10 +4,15 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ChartsModule } from "ng2-charts/ng2-charts";
+import { SimpleTimer } from 'ng2-simple-timer';
+import {TreeTableModule} from 'primeng/treetable';
+
 import {
   ManagerComponent,
   LoginComponent,
   UserService,
+  ReportService,
   MainComponent,
   HeaderComponent,
   FooterComponent,
@@ -36,8 +41,14 @@ import {
   MyHoursComponent,
   BeginEndTaskComponent,
   PresentDayService,
-  TaskDetailsForWorkerComponent
+  TaskDetailsForWorkerComponent,
+  ClockComponent,
+  ProjectReportComponent,
+  ProjectWorkersReportComponent,
+  WorkersReportComponent
 } from './shared/imports';
+
+
 
 
 @NgModule({
@@ -69,7 +80,12 @@ import {
     MyTasksComponent,
     MyHoursComponent,
     BeginEndTaskComponent,
-    TaskDetailsForWorkerComponent
+    TaskDetailsForWorkerComponent,
+    ClockComponent,
+    ProjectReportComponent,
+    ProjectWorkersReportComponent,
+    WorkersReportComponent,
+    
 
 
   ],
@@ -78,9 +94,11 @@ import {
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule,
+    TreeTableModule
   ],
-  providers: [UserService, StatusService, ProjectService, TaskService,PresentDayService],
+  providers: [UserService, StatusService, ProjectService, ReportService,TaskService,PresentDayService,SimpleTimer],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

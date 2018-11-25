@@ -51,6 +51,12 @@ namespace webAPI_tasks.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.OK, LogicTask.GetTasksWithUserAndProjectByUserId(userId));
         }
+        [HttpGet]
+        [Route("api/Tasks/GetWorkersDictionary/{projectId}")]
+        public HttpResponseMessage GetWorkersDictionary(int projectId)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, LogicTask.GetWorkersDictionary(projectId));
+        }
 
         [HttpPut]
         [Route("api/Tasks/UpdateTask")]
@@ -75,10 +81,10 @@ namespace webAPI_tasks.Controllers
         }
 
         [HttpGet]
-        [Route("api/Users/GetWorkerTasksDictionary/{id}")]
-        public HttpResponseMessage GetWorkerTasksDictionary(int id)
+        [Route("api/Tasks/GetWorkerTasksDictionary/{workerId}")]
+        public HttpResponseMessage GetWorkerTasksDictionary(int workerId)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, LogicTask.GetWorkerTasksDictionary(id));
+            return Request.CreateResponse(HttpStatusCode.OK, LogicTask.GetWorkerTasksDictionary(workerId));
         }
     }
 }

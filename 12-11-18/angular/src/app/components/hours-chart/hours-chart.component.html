@@ -1,4 +1,17 @@
-<!-- <div>
+<div class="form-wrapper">
+  <h1>Hours chart</h1>
+
+  <form >
+    <div class="form-item">
+      <label>Choose project</label>
+      <select (change)="changeProject($event)">
+        <option *ngFor="let project of projects" [ngValue]="project.projectId">{{project.projectName}}</option>
+      </select>
+    </div>
+
+  </form>
+</div>
+ <div *ngIf="barChartLabels.length>0">
     <div style="display: block">
       <canvas baseChart 
               [datasets]="barChartData"
@@ -11,4 +24,4 @@
        </canvas>
     </div>
   </div>
-   -->
+   

@@ -12,7 +12,7 @@ export class MyTasksComponent implements OnInit {
   worker:User;
 
   constructor(private taskService:TaskService,private userService:UserService) { 
-    this.worker=this.userService.getCurrentUser();
+   this.worker= this.userService.getCurrentUser();
   }
 
   ngOnInit() {

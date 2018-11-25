@@ -32,7 +32,6 @@ namespace BLL
 
             return DBAccess.RunReader(query, func);
         }
-
         public static List<User> GetAllWorkersByTeamId(int id)
         {
             string query = $"SELECT * FROM task.user JOIN task.status ON task.user.IdStatus=task.status.IdStatus WHERE managerId={id};";
@@ -49,29 +48,6 @@ namespace BLL
 
             return DBAccess.RunReader(query, func);
         }
-        public static List<Project> GetProjectsUser(int id)
-        {
-            string query = $"SELECT * FROM task.projectworker WHERE workerId={id} ;";
-            List<Project> projects = new List<Project>();
-            Func<MySqlDataReader, List<PresentDay>> func = (reader) =>
-            {
-                List<PresentDay> projectsWorker = new List<PresentDay>();
-                while (reader.Read())
-                {
-                    projectsWorker.Add(ConvertorPresentDay.convertDBtoProjectWorker(reader));
-                }
-                return projectsWorker;
-            };
-
-            List<PresentDay> ProjectWorker = DBAccess.RunReader(query, func);
-            foreach (var item in ProjectWorker)
-            {
-                projects.Add(LogicProjects.GetProjectDetails(item.ProjectId));
-            }
-
-            return projects;
-        }
-
         public static List<User> GetWorkersByTeamhead(int teamHeadId)
         {
             string query = $"SELECT * FROM task.user JOIN task.status ON task.user.IdStatus=task.status.IdStatus WHERE task.user.managerId={teamHeadId};";
@@ -88,20 +64,22 @@ namespace BLL
 
             return DBAccess.RunReader(query, func);
         }
-
-        public static Dictionary<string, decimal> GetWorkersDictionary(int id)
+        public static List<User> GetWorkersByProjectId(int projectId)
         {
-            List<User> users = new List<User>(); users = GetWorkersByTeamhead(id);
-            Dictionary<string, decimal> workersDictionary = new Dictionary<string, decimal>();
-            List<decimal> yValues = users.Select(p => p.NumHoursWork).ToList();
-            List<string> xValues = users.Select(p => p.UserName).ToList();
-            for (int i = 0; i < yValues.Count; i++)
-            {
-                workersDictionary.Add(xValues[i], yValues[i]);
-            }
-            return workersDictionary;
-        }
+            string query = $"SELECT * FROM task.user JOIN task.TASK on task.user.idUser=task.task.idUser WHERE task.task.idProject={projectId};";
 
+            Func<MySqlDataReader, List<User>> func = (reader) =>
+            {
+                List<User> users = new List<User>();
+                while (reader.Read())
+                {
+                    users.Add(ConvertorUser.convertDBtoUser(reader));
+                }
+                return users;
+            };
+
+            return DBAccess.RunReader(query, func);
+        }
         public static List<User> GetAllowedWorkers(int teamHeadId)
         {
             string query = $"SELECT * FROM task.user JOIN task.status ON task.user.IdStatus=task.status.IdStatus WHERE task.status.statusname!='TeamHead' and task.status.statusname!='Manager' and task.user.managerId!={teamHeadId};";
@@ -118,7 +96,6 @@ namespace BLL
 
             return DBAccess.RunReader(query, func);
         }
-
         public static List<User> GetAllTeamHeads()
         {
             string query = $"SELECT * FROM task.user JOIN task.status ON task.user.IdStatus=task.status.IdStatus WHERE task.status.statusname='TeamHead';";
@@ -151,7 +128,6 @@ namespace BLL
 
             return DBAccess.RunReader(query, func);
         }
-
         public static User GetUserDetails(int id)
         {
             string query = $"SELECT * FROM task.user JOIN task.status ON user.IdStatus=status.IdStatus WHERE idUser={id}";
@@ -184,7 +160,6 @@ namespace BLL
             managers = DBAccess.RunReader(query, func);
             return managers.Count > 0 ? managers[0] as User : null;
         }
-
         public static User GetUserDetailsByPassword(string password, string userName)
         {
             //TODO:לעשות פונקציה שבודקת תווים מיוחדים עי סטור ופונקציה
@@ -209,22 +184,34 @@ namespace BLL
             return null;
 
         }
-
+        public static WorkerForProjectReport GetWorkerInfoForProjectReport(int projectid,int workerId)
+        {
+            string query = $"SELECT * FROM task.task  WHERE idProject={projectid} AND idUser={workerId}";
+            List<Task> tasks = new List<Task>();
+            Func<MySqlDataReader, List<Task>> func = (reader) =>
+            {
+                List<Task> tasksList = new List<Task>();
+                while (reader.Read())
+                {
+                    tasksList.Add(ConvertorTask.convertToTask(reader));
+                }
+                return tasksList;
+            };
+            List<Task> currentTask = DBAccess.RunReader(query, func);
+            return currentTask.Count > 0 ? new WorkerForProjectReport { GivenHours= currentTask[0].GivenHours,ReservingHours=currentTask[0].ReservingHours } : null;
+        }
         public static bool RemoveUser(int id)
         {
             string query = $"DELETE FROM task.user WHERE idUser={id};";
             return DBAccess.RunNonQuery(query) == 1;
         }
 
-
         //-------------------------------------------
-
         public static bool UpdateUser(User user)
         {
-            string query = $"UPDATE task.user SET userName='{user.UserName}',password='{user.Password}',email='{user.Email}',IdStatus={user.StatusId}  ,totalhours={user.NumHoursWork},managerId={user.ManagerId},userComputer='{user.UserComputer}'  WHERE idUser={user.UserId} ;";
+            string query = $"UPDATE task.user SET IdStatus={user.StatusId} ,managerId={user.ManagerId},userComputer='{user.UserComputer}'  WHERE idUser={user.UserId} ;";
             return DBAccess.RunNonQuery(query) == 1;
         }
-
         public static bool AddUser(User user)
         {
 
@@ -232,7 +219,6 @@ namespace BLL
             string query = $"INSERT INTO `task`.`user`(`userName`,`password`,`email`,`IdStatus`,`totalhours`,`managerId`,`userComputer`) VALUES('{user.UserName}','{user.Password}','{user.Email}',{user.StatusId},{user.NumHoursWork},{user.ManagerId},'{user.UserComputer}'); ";
             return DBAccess.RunNonQuery(query) == 1;
         }
-
         public static User GetUserDetailsComputerUser(string computerUser)
         {
             string query = $"USE task;SELECT * FROM task.user JOIN task.status ON user.IdStatus=status.IdStatus WHERE userComputer='{computerUser}'";
