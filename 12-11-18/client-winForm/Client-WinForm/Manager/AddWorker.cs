@@ -26,19 +26,7 @@ namespace Client_WinForm.Manager
            this.manager= manager ; 
             InitializeComponent();
             List<Status> statuses = new List<Status>();
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(@"http://localhost:61309/api/Status/");
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpResponseMessage response = client.GetAsync("GetAllstatuses").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                var departmentJson = response.Content.ReadAsStringAsync().Result;
-                statuses = JsonConvert.DeserializeObject<List<Status>>(departmentJson);
-            }
-            else
-            {
-                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-            }
+            statuses = Requests.StatusRequests.GetAllStatuses();
             cmb_department.DataSource = statuses;
             cmb_department.DisplayMember = "StatusName";
         }
@@ -49,19 +37,7 @@ namespace Client_WinForm.Manager
             if (((sender as ComboBox).SelectedItem as Status).StatusName!= "TeamHead")
             {
                 List<User> teamHeads = new List<User>();
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(@"http://localhost:61309/api/Users/");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.GetAsync("GetAllTeamHeads").Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    var usersJson = response.Content.ReadAsStringAsync().Result;
-                    teamHeads = JsonConvert.DeserializeObject<List<User>>(usersJson);
-                }
-                else
-                {
-                    Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-                }
+                teamHeads = Requests.UserRequests.GetAllTeamHeads();
                 cmb_managerName.DataSource = teamHeads;
             }
             else
@@ -77,7 +53,9 @@ namespace Client_WinForm.Manager
         {
             User newUser = new User {
                 UserName = txt_userName.Text,
+                IsNewWorker=true,
                 Password = LoginUser.sha256_hash(txt_password.Text),
+                ConfirmPassword=txt_confirmPassword.Text,
                 Email =txt_email.Text,
                 ManagerId =(cmb_managerName.SelectedItem  as User).UserId,
                 NumHoursWork=0,

@@ -39,6 +39,8 @@
             this.cmb_department = new System.Windows.Forms.ComboBox();
             this.cmb_managerName = new System.Windows.Forms.ComboBox();
             this.btn_addWorker = new System.Windows.Forms.Button();
+            this.txt_confirmPassword = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -62,7 +64,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(121, 120);
+            this.label3.Location = new System.Drawing.Point(121, 149);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 13);
             this.label3.TabIndex = 2;
@@ -71,7 +73,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(121, 149);
+            this.label4.Location = new System.Drawing.Point(121, 178);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 3;
@@ -80,7 +82,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(121, 179);
+            this.label5.Location = new System.Drawing.Point(121, 208);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(80, 13);
             this.label5.TabIndex = 4;
@@ -102,7 +104,7 @@
             // 
             // txt_email
             // 
-            this.txt_email.Location = new System.Drawing.Point(204, 146);
+            this.txt_email.Location = new System.Drawing.Point(204, 175);
             this.txt_email.Name = "txt_email";
             this.txt_email.Size = new System.Drawing.Size(121, 20);
             this.txt_email.TabIndex = 7;
@@ -110,7 +112,7 @@
             // cmb_department
             // 
             this.cmb_department.FormattingEnabled = true;
-            this.cmb_department.Location = new System.Drawing.Point(204, 120);
+            this.cmb_department.Location = new System.Drawing.Point(204, 149);
             this.cmb_department.Name = "cmb_department";
             this.cmb_department.Size = new System.Drawing.Size(121, 21);
             this.cmb_department.TabIndex = 8;
@@ -119,7 +121,7 @@
             // cmb_managerName
             // 
             this.cmb_managerName.FormattingEnabled = true;
-            this.cmb_managerName.Location = new System.Drawing.Point(204, 171);
+            this.cmb_managerName.Location = new System.Drawing.Point(204, 200);
             this.cmb_managerName.Name = "cmb_managerName";
             this.cmb_managerName.Size = new System.Drawing.Size(121, 21);
             this.cmb_managerName.TabIndex = 9;
@@ -134,11 +136,29 @@
             this.btn_addWorker.UseVisualStyleBackColor = true;
             this.btn_addWorker.Click += new System.EventHandler(this.btn_addWorker_Click);
             // 
+            // txt_confirmPassword
+            // 
+            this.txt_confirmPassword.Location = new System.Drawing.Point(204, 123);
+            this.txt_confirmPassword.Name = "txt_confirmPassword";
+            this.txt_confirmPassword.Size = new System.Drawing.Size(121, 20);
+            this.txt_confirmPassword.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(117, 123);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(90, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Confirm password";
+            // 
             // AddWorker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txt_confirmPassword);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btn_addWorker);
             this.Controls.Add(this.cmb_managerName);
             this.Controls.Add(this.cmb_department);
@@ -170,5 +190,7 @@
         private System.Windows.Forms.ComboBox cmb_department;
         private System.Windows.Forms.ComboBox cmb_managerName;
         private System.Windows.Forms.Button btn_addWorker;
+        private System.Windows.Forms.TextBox txt_confirmPassword;
+        private System.Windows.Forms.Label label6;
     }
 }

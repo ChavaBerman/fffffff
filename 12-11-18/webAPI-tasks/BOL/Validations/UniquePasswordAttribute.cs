@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BOL.Validations
 {
     class UniquePasswordAttribute : ValidationAttribute
@@ -16,10 +17,21 @@ namespace BOL.Validations
             ValidationResult validationResult = ValidationResult.Success;
             try
             {
+                string password = "";
                 //Take userId and email of the user parameter
                 int userId = (validationContext.ObjectInstance as User).UserId;
-                string password = value.ToString();
-
+                if ((validationContext.ObjectInstance as User).IsNewWorker == false)
+                    return null;
+                try
+                {
+                     password = value.ToString();
+                }
+                catch
+                {
+                    ErrorMessage = "password can not be null";
+                    validationResult = new ValidationResult(ErrorMessageString);
+                    return validationResult;
+                }
                 //Invoke method 'getAllUsers' from 'UserService' in 'BLL project' by reflection (not by adding reference!)
 
                 //1. Load 'BLL' project
@@ -36,8 +48,8 @@ namespace BOL.Validations
 
                 //The result of this method is list of users
 
-                
-                bool isUnique = users.Any(user => user.Password.Equals(password)&&user.UserId!=userId) == false;
+
+                bool isUnique = users.Any(user => user.Password.Equals(password) && user.UserId != userId) == false;
                 if (isUnique == false)
                 {
                     ErrorMessage = "password nust be unique";
@@ -52,4 +64,10 @@ namespace BOL.Validations
         }
 
     }
+
+
+
+
+    
+   
 }

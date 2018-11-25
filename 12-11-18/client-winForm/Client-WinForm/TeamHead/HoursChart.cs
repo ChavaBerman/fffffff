@@ -1,4 +1,5 @@
-﻿using Client_WinForm.Models;
+﻿using Client_WinForm.HelpModel;
+using Client_WinForm.Models;
 using Client_WinForm.Requests;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,24 @@ namespace Client_WinForm.TeamHead
 {
     public partial class HoursChart : Form
     {
-        public HoursChart(User TeamHead)
+        public HoursChart(User teamHead)
         {
             
             InitializeComponent();
+            cmb_projects.DataSource = ProjectRequests.GetAllProjectsByTeamHead(teamHead.UserId);
+            cmb_projects.DisplayMember = "ProjectName";
 
+            
+        }
 
-            Dictionary<string, decimal> workersDictionary = new Dictionary<string, decimal>();
-            workersDictionary = UserRequests.GetWorkersDictionary(TeamHead.UserId);
-            chart1.Series[0].Points.DataBindXY(workersDictionary.Keys, workersDictionary.Values);
+        private void cmb_projects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+Dictionary<string, Hours> workersDictionary = new Dictionary<string, Hours>();
+            workersDictionary = UserRequests.GetWorkersDictionary(((sender as ComboBox).SelectedItem as Project).ProjectId);
+            List<decimal> givenList = workersDictionary.Values.Select(p => p.GivenHours).ToList();
+            List<decimal> reservingList = workersDictionary.Values.Select(p => p.ReservingHours).ToList();
+            chart1.Series[0].Points.DataBindXY(workersDictionary.Keys, givenList);
+            chart1.Series[1].Points.DataBindXY(workersDictionary.Keys, reservingList);
         }
     }
 }

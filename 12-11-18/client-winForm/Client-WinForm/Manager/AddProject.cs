@@ -21,24 +21,13 @@ namespace Client_WinForm.Manager
     public partial class AddProject : Form
     {
         List<User> addedUsers = new List<User>();
-
+        List<Models.Task> tasksForAddedWorkers = new List<Models.Task>();
+        List<User> teamHeadWorkers = new List<User>();
         public AddProject()
         {
             InitializeComponent();
-            HttpClient client = new HttpClient();
             List<User> teamHeads = new List<User>();
-            client.BaseAddress = new Uri(@"http://localhost:61309/api/Users/");
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpResponseMessage response = client.GetAsync("GetAllTeamHeads").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                var usersJson = response.Content.ReadAsStringAsync().Result;
-                teamHeads = JsonConvert.DeserializeObject<List<User>>(usersJson);
-            }
-            else
-            {
-                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-            }
+            teamHeads = Requests.UserRequests.GetAllTeamHeads();
             cmb_TeamHeads.DataSource = teamHeads;
             cmb_TeamHeads.DisplayMember = "userName";
         }
@@ -48,31 +37,21 @@ namespace Client_WinForm.Manager
             Added_Workers.Items.Clear();
             addedUsers.Clear();
             List<User> allowedWorkers = new List<User>();
-            HttpClient client = new HttpClient();
-
-            client.BaseAddress = new Uri(@"http://localhost:61309/api/Users/");
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpResponseMessage response = client.GetAsync($"GetAllowedWorkers/{((sender as ComboBox).SelectedItem as User).UserId}").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                var usersJson = response.Content.ReadAsStringAsync().Result;
-                allowedWorkers = JsonConvert.DeserializeObject<List<User>>(usersJson);
-                cmb_workers.DataSource = allowedWorkers;
-                cmb_workers.DisplayMember = "userName";
-            }
-            else
-            {
-                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-            }
+            allowedWorkers = Requests.UserRequests.GetAllowedWorkers(((sender as ComboBox).SelectedItem as User).UserId);
+            cmb_workers.DataSource = allowedWorkers;
+            cmb_workers.DisplayMember = "userName";
+            teamHeadWorkers = Requests.UserRequests.GetWorkersByTeamhead(((sender as ComboBox).SelectedItem as User).UserId);
         }
 
         private void cmb_workers_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (addedUsers.Find(p => p.UserId == ((sender as ComboBox).SelectedItem as User).UserId) == null)
+            User user = ((sender as ComboBox).SelectedItem as User);
+            if (addedUsers.Find(p => p.UserId == user.UserId) == null)
             {
-                addedUsers.Add((sender as ComboBox).SelectedItem as User);
-                Added_Workers.Items.Add(((sender as ComboBox).SelectedItem as User).UserName);
+                addedUsers.Add(user);
+                Added_Workers.Items.Add(user.UserName);
+
             }
         }
 
@@ -90,12 +69,34 @@ namespace Client_WinForm.Manager
 
         private void btn_add_project_Click(object sender, EventArgs e)
         {
+
+            addedUsers.AddRange(teamHeadWorkers);
+            foreach (User worker in addedUsers)
+            {
+                int reservingHours = 0;
+                while (reservingHours == 0)
+                {
+                    try
+                    {
+                        reservingHours = int.Parse(Microsoft.VisualBasic.Interaction.InputBox("enter num of reserving hours for " + worker.UserName, "Reserving hours", "1"));
+                        tasksForAddedWorkers.Add(new Models.Task { ReservingHours = reservingHours, IdUser = worker.UserId });
+                    }
+                    catch
+                    {
+                        MessageBox.Show("enter number only");
+                    }
+                }
+
+
+            }
+
             Project newProject = new Project
             {
                 ProjectName = txt_projectName.Text,
                 CustomerName = txt_CustomerName.Text,
                 IdManager = ((cmb_TeamHeads as ComboBox).SelectedItem as User).UserId,
                 workers = addedUsers,
+                tasks=tasksForAddedWorkers,
                 DevHours = DevHours.Value,
                 UIUXHours = UIUXHours.Value,
                 QAHours = QAHours.Value,
@@ -108,43 +109,14 @@ namespace Client_WinForm.Manager
 
             if (Validator.TryValidateObject(newProject, validationContext, results, true))
             {
-                try
-                {
-                    //Post Request for Register
-                    var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:61309/api/Projects/AddProject");
-                    httpWebRequest.ContentType = "application/json";
-                    httpWebRequest.Method = "POST";
-                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-                    {
-                        string user = JsonConvert.SerializeObject(newProject, Formatting.None);
-
-                        streamWriter.Write(user);
-                        streamWriter.Flush();
-                        streamWriter.Close();
-                    }
-                    //Gettting response
-                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-
-                    //Reading response
-                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream(), ASCIIEncoding.ASCII))
-                    {
-                        string result = streamReader.ReadToEnd();
-                        //If Register succeeded
-                        if (httpResponse.StatusCode == HttpStatusCode.Created)
-                        {
-
-                            MessageBox.Show("added successfully");
-                            Close();
-                        }
-                        //Printing the matching error
-                        else MessageBox.Show(result);
-                    }
-                }
-                catch (Exception exception)
+                if (Requests.ProjectRequests.AddProject(newProject))
                 {
 
-
+                    MessageBox.Show("added successfully");
+                    Close();
                 }
+                //Printing the matching error
+                else MessageBox.Show("failed to add");
             }
             else
             {

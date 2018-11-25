@@ -60,7 +60,7 @@ namespace BOL
         [Range(0, int.MaxValue)]
         [DefaultValue(0)]
         public decimal UIUXHours { get; set; }
-
+        public List<Models.Task> tasks { get; set; }
 
         //-------------------------
         public User Manager { get; set; }

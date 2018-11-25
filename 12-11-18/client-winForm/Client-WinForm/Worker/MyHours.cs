@@ -1,4 +1,5 @@
-﻿using Client_WinForm.Models;
+﻿using Client_WinForm.HelpModel;
+using Client_WinForm.Models;
 using Client_WinForm.Requests;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,12 @@ namespace Client_WinForm.Worker
         {
 
             InitializeComponent();
-            Dictionary<string, decimal> workersDictionary = new Dictionary<string, decimal>();
+            Dictionary<string, Hours> workersDictionary = new Dictionary<string, Hours>();
             workersDictionary = TaskRequests.GetWorkerTasksDictionary(worker.UserId);
-            chart1.Series[0].Points.DataBindXY(workersDictionary.Keys, workersDictionary.Values);
+            List<decimal> givenList = workersDictionary.Values.Select(p => p.GivenHours).ToList();
+            List<decimal> reservingList = workersDictionary.Values.Select(p => p.ReservingHours).ToList();
+            chart1.Series[0].Points.DataBindXY(workersDictionary.Keys, givenList);
+            chart1.Series[1].Points.DataBindXY(workersDictionary.Keys, reservingList);
         }
     }
 }

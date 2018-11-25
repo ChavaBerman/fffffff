@@ -24,10 +24,10 @@ namespace Client_WinForm.Models
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "password is required")]
-        [UniquePassword]
+       // [UniquePassword]
         // [MinLength(64), MaxLength(64)]
         public string Password { get; set; }
-
+        public string ConfirmPassword { get; set; }
         [Required(ErrorMessage = "email is required")]
         [UniqueEmail]
         [EmailAddress]
@@ -41,7 +41,9 @@ namespace Client_WinForm.Models
 
         public int? ManagerId { get; set; }
         public int StatusId { get; set; }
-
+        [DefaultValue(true)]
+        public bool IsNewWorker { get; set; }
+     
 
         //------------------------------------------------------------
         public Status statusObj { get; set; }

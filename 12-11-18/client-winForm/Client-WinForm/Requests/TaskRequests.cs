@@ -1,4 +1,5 @@
-﻿using Client_WinForm.Models;
+﻿using Client_WinForm.HelpModel;
+using Client_WinForm.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -131,17 +132,17 @@ namespace Client_WinForm.Requests
             }
         }
 
-        public static Dictionary<string, decimal> GetWorkerTasksDictionary(int workerId)
+        public static Dictionary<string, Hours> GetWorkerTasksDictionary(int workerId)
         {
-            Dictionary<string, decimal> allTasks = new Dictionary<string, decimal>();
+            Dictionary<string, Hours> allTasks = new Dictionary<string, Hours>();
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(@"http://localhost:61309/api/Users/");
+            client.BaseAddress = new Uri(@"http://localhost:61309/api/Tasks/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response = client.GetAsync($"GetWorkerTasksDictionary/{workerId}").Result;
             if (response.IsSuccessStatusCode)
             {
-                var usersJson = response.Content.ReadAsStringAsync().Result;
-                allTasks = JsonConvert.DeserializeObject<Dictionary<string, decimal>>(usersJson);
+                var infoJson = response.Content.ReadAsStringAsync().Result;
+                allTasks = JsonConvert.DeserializeObject<Dictionary<string, Hours>>(infoJson);
             }
             else
             {

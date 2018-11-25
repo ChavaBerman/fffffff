@@ -40,3 +40,14 @@ S:\ChavyBerman\webAPI-tasks\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 S:\ChavyBerman\webAPI-tasks\DAL\obj\Debug\DAL.csproj.CopyComplete
 S:\ChavyBerman\webAPI-tasks\DAL\obj\Debug\DAL.dll
 S:\ChavyBerman\webAPI-tasks\DAL\obj\Debug\DAL.pdb
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\bin\Debug\DAL.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\bin\Debug\DAL.pdb
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\bin\Debug\Google.Protobuf.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\bin\Debug\MySql.Data.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\bin\Debug\Google.Protobuf.xml
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\bin\Debug\MySql.Data.xml
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\obj\Debug\DAL.csproj.CopyComplete
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\obj\Debug\DAL.dll
+S:\ChavyBerman\ffffff\webAPI-tasks\DAL\obj\Debug\DAL.pdb

@@ -2,7 +2,9 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -30,6 +32,7 @@ namespace Client_WinForm.Requests
             }
             return allProjects;
         }
+     
         public static List<Project> GetAllProjectsByTeamHead(int id)
         {
             List<Project> allProjects = new List<Project>();
@@ -83,6 +86,43 @@ namespace Client_WinForm.Requests
                 Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
             }
             return precents;
+        }
+        public static bool AddProject(Project newProject)
+        {
+            try
+            {
+                //Post Request for Register
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:61309/api/Projects/AddProject");
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string project = JsonConvert.SerializeObject(newProject, Formatting.None);
+
+                    streamWriter.Write(project);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                //Gettting response
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                //Reading response
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream(), ASCIIEncoding.ASCII))
+                {
+                    string result = streamReader.ReadToEnd();
+                    //If Register succeeded
+                    if (httpResponse.StatusCode == HttpStatusCode.Created)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("failed to add");
+
+            }
+            return false;
         }
     }
 }

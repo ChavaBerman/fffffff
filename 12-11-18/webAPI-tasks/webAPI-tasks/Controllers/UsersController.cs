@@ -12,11 +12,15 @@ using System.Web.Http.Cors;
 
 namespace webAPI_tasks.Controllers
 {
+
+
+    //--------------------------------
     [EnableCors("*", "*", "*")]
     public class UsersController : ApiController
     {
-      
-        // GET: api/Users
+
+     
+
         [HttpGet]
         [Route("api/Users/getAllUsers")]
         public HttpResponseMessage Get()
@@ -54,13 +58,6 @@ namespace webAPI_tasks.Controllers
         }
 
         [HttpGet]
-        [Route("api/Users/GetWorkersDictionary/{id}")]
-        public HttpResponseMessage GetWorkersDictionary(int id)
-        {
-            return Request.CreateResponse(HttpStatusCode.OK, LogicManager.GetWorkersDictionary(id));
-        }
-
-        [HttpGet]
         [Route("api/Users/getUserDetails/{id}")]
         public HttpResponseMessage Get(int id)
         {
@@ -70,7 +67,7 @@ namespace webAPI_tasks.Controllers
 
         [HttpPost]
         [Route("api/Users/sendMessageToManager")]
-        public HttpResponseMessage sendMessageToManager( [FromBody]EmailParams emailParams)
+        public HttpResponseMessage sendMessageToManager([FromBody]EmailParams emailParams)
         {
             return Request.CreateResponse(HttpStatusCode.OK, LogicManager.sendEmailToManager(emailParams.idUser, emailParams.message, emailParams.subject));
         }
@@ -97,7 +94,7 @@ namespace webAPI_tasks.Controllers
 
         [HttpPost]
         [Route("api/Users/loginByPassword")]
-   
+
         public HttpResponseMessage LoginByPassword([FromBody]LoginUser value)
         {
             if (ModelState.IsValid)
@@ -105,9 +102,9 @@ namespace webAPI_tasks.Controllers
                 User user = LogicManager.GetUserDetailsByPassword(value.Password, value.UserName);
                 //TODO:TOKEN
                 return user != null ?
-                    Request.CreateResponse(HttpStatusCode.Created,user) :
+                    Request.CreateResponse(HttpStatusCode.Created, user) :
                     Request.CreateResponse(HttpStatusCode.BadRequest, "This user does not exist");
-               
+
             };
 
             List<string> ErrorList = new List<string>();
@@ -122,21 +119,22 @@ namespace webAPI_tasks.Controllers
         }
         [HttpPost]
         [Route("api/Users/LoginByComputerUser")]
-        public HttpResponseMessage LoginByComputerUser([FromBody]string ComputerUser)
+        public HttpResponseMessage LoginByComputerUser([FromBody]ComputerLogin computerLogin)
         {
 
-            User user = LogicManager.GetUserDetailsComputerUser(ComputerUser);
+            User user = LogicManager.GetUserDetailsComputerUser(computerLogin.ComputerIp);
             //TODO:TOKEN
             return user != null ?
                  Request.CreateResponse(HttpStatusCode.Created, user) :
                     Request.CreateResponse(HttpStatusCode.BadRequest, "Can not add to DB");
-           
+
         }
-        
+
         [HttpPut]
         [Route("api/Users/UpdateUser")]
-        public HttpResponseMessage Put([FromBody]User value)
+        public HttpResponseMessage UpdateUser([FromBody]User value)
         {
+
             if (ModelState.IsValid)
             {
                 return LogicManager.UpdateUser(value) ?
@@ -158,9 +156,10 @@ namespace webAPI_tasks.Controllers
         [Route("api/Users/RemoveUser/{id}")]
         public HttpResponseMessage Delete(int id)
         {
-            return LogicManager.RemoveUser(id)?
+            return LogicManager.RemoveUser(id) ?
                  Request.CreateResponse(HttpStatusCode.OK) :
                     Request.CreateResponse(HttpStatusCode.BadRequest, "Can not remove from DB");
         }
+
     }
 }

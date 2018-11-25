@@ -6,6 +6,7 @@ using System.Text;
 using Client_WinForm.Models;
 using System.Windows.Forms;
 using Client_WinForm.TeamHead;
+using Client_WinForm.HelpModel;
 
 namespace Client_WinForm
 {
@@ -14,66 +15,39 @@ namespace Client_WinForm
         public Welcome()
         {
             IsMdiContainer = true;
-            try
+            User user = Requests.UserRequests.LoginByComputerUser();
+            if (user != null)
             {
-                //Post Request for Login
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(@"http://localhost:61309/api/LoginByComputerUser");
-                httpWebRequest.ContentType = "application/json";
-                httpWebRequest.Method = "POST";
-                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                switch (user.statusObj.StatusName)
                 {
-                    string ComputerUser = JsonConvert.SerializeObject(Environment.MachineName, Formatting.None);
+                    case "Manager":
+                        Manager.ManagerMainScreen managerMainScreen = new Manager.ManagerMainScreen(user);
 
-                    streamWriter.Write(ComputerUser);
-                    streamWriter.Flush();
-                    streamWriter.Close();
-                }
-                //Gettting response
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                        managerMainScreen.Show();
+                        break;
+                    case "TeamHead":
+                        TeamHeadScreen TeamHeadScreen = new TeamHeadScreen(user);
 
-                //Reading response
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream(), ASCIIEncoding.ASCII))
-                {
-                    string result = streamReader.ReadToEnd();
-                    //If Login succeeded
-                    if (httpResponse.StatusCode == HttpStatusCode.Created)
-                    {
+                        TeamHeadScreen.Show();
+                        break;
 
-                        dynamic obj = JsonConvert.DeserializeObject(result);
-                        User user = JsonConvert.DeserializeObject<User>(JsonConvert.SerializeObject(obj));
-                        switch (user.statusObj.StatusName)
-                        {
-                            case "Manager":
-                                Manager.ManagerMainScreen managerMainScreen = new Manager.ManagerMainScreen(user);
-                                
-                                managerMainScreen.Show();
-                                break;
-                            case "TeamHead":
-                                TeamHeadScreen TeamHeadScreen = new TeamHeadScreen(user);
-                          
-                                TeamHeadScreen.Show();
-                                break;
+                    default:
+                        WorkerScreen workerScreen = new WorkerScreen(user);
 
-                            default:
-                                WorkerScreen workerScreen = new WorkerScreen(user);
-                                
-                                workerScreen.Show();
-                                break;
+                        workerScreen.Show();
+                        break;
 
-                        }
-
-                    }
-                    //Printing the matching error
-                    else MessageBox.Show(result);
                 }
             }
-            catch (Exception exception)
+            else
             {
                 ManagementTaskLogin managementTaskLogin = new ManagementTaskLogin();
                 managementTaskLogin.MdiParent = this;
                 managementTaskLogin.Show();
 
             }
+
+
             InitializeComponent();
         }
 
