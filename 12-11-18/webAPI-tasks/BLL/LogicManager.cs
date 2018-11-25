@@ -184,7 +184,11 @@ namespace BLL
             return null;
 
         }
+<<<<<<< HEAD
         public static WorkerForProjectReport GetWorkerInfoForProjectReport(int projectid,int workerId)
+=======
+        public static ProjectReport GetWorkerInfoForProjectReport(int projectid,int workerId)
+>>>>>>> cefbea1ebe43b7c294cdbb0a1fc2a8aabadfaf2d
         {
             string query = $"SELECT * FROM task.task  WHERE idProject={projectid} AND idUser={workerId}";
             List<Task> tasks = new List<Task>();
@@ -198,7 +202,11 @@ namespace BLL
                 return tasksList;
             };
             List<Task> currentTask = DBAccess.RunReader(query, func);
+<<<<<<< HEAD
             return currentTask.Count > 0 ? new WorkerForProjectReport { GivenHours= currentTask[0].GivenHours,ReservingHours=currentTask[0].ReservingHours } : null;
+=======
+            return currentTask.Count > 0 ? new ProjectReport { GivenHours= currentTask[0].GivenHours,ReservingHours=currentTask[0].ReservingHours } : null;
+>>>>>>> cefbea1ebe43b7c294cdbb0a1fc2a8aabadfaf2d
         }
         public static bool RemoveUser(int id)
         {

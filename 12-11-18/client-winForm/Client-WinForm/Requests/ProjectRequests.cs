@@ -32,6 +32,7 @@ namespace Client_WinForm.Requests
             }
             return allProjects;
         }
+     
         public static List<Project> GetAllProjectsByTeamHead(int id)
         {
             List<Project> allProjects = new List<Project>();
